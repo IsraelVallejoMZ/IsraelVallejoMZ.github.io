@@ -1,1021 +1,1055 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Israel Vallejo Muñoz – Environmental Data Portfolio</title>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+<meta charset="utf-8">
+<title>Israel Vallejo Muñoz – Environmental Data Portfolio</title>
+<meta name="description" content="Marine Biologist & Environmental Data Analyst. Remote sensing, GIS, species distribution modeling and fisheries analysis for conservation, climate and fisheries science.">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   ISRAEL VALLEJO MUÑOZ — PORTFOLIO
+   "Deep ocean data" theme
+   ============================================================ */
 
-    :root {
-      --ink:        #0e1a14;
-      --paper:      #f5f2eb;
-      --forest:     #1a4d3a;
-      --moss:       #2d7d5a;
-      --tide:       #00897b;
-      --mangrove:   #4caf87;
-      --sand:       #e8e0cc;
-      --mist:       #c8ddd4;
-      --accent:     #d4a843;
-      --danger:     #c0392b;
-      --mono:       'DM Mono', monospace;
-      --serif:      'DM Serif Display', serif;
-      --sans:       'Outfit', sans-serif;
-    }
+:root {
+  --navy-deep:  #06384f;   /* page background                */
+  --navy-mid:   #2d5a70;   /* intermediate reading panels     */
+  --navy-panel: #0b4460;   /* cards on deep background        */
+  --cyan:       #5fc7ee;   /* accent                           */
+  --cyan-soft:  #8fdcf6;   /* secondary accent                 */
+  --blue-2:     #2d7fa6;   /* secondary bar fill               */
+  --gold:       #e0a868;   /* warning / secondary data color   */
+  --cream:      #efe8dc;   /* primary text on dark              */
+  --text-body:  #c9d6d9;   /* body copy on dark                 */
+  --text-muted: #a9c0c6;   /* meta / labels                     */
+  --line:       rgba(239,232,220,0.16);
 
-    html { scroll-behavior: smooth; }
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-body:    'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-data:    'JetBrains Mono', ui-monospace, monospace;
+}
 
-    body {
-      font-family: var(--sans);
-      background: var(--paper);
-      color: var(--ink);
-      overflow-x: hidden;
-    }
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
-    /* ── NOISE TEXTURE OVERLAY ── */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-      pointer-events: none;
-      z-index: 1000;
-      opacity: 0.4;
-    }
+html, body {
+  background: var(--navy-deep);
+  color: var(--cream);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  scroll-behavior: smooth;
+}
 
-    /* ── NAV ── */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1.2rem 3rem;
-      background: rgba(245,242,235,0.85);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--sand);
-    }
-    .nav-logo {
-      font-family: var(--mono);
-      font-size: 0.8rem;
-      color: var(--moss);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-    .nav-links { display: flex; gap: 2rem; list-style: none; }
-    .nav-links a {
-      font-family: var(--sans);
-      font-size: 0.85rem;
-      font-weight: 500;
-      color: var(--ink);
-      text-decoration: none;
-      letter-spacing: 0.03em;
-      opacity: 0.7;
-      transition: opacity 0.2s, color 0.2s;
-    }
-    .nav-links a:hover { opacity: 1; color: var(--moss); }
+a { color: var(--cyan); text-decoration: none; }
+a:hover { color: var(--cyan-soft); }
 
-    /* ── HERO ── */
-    .hero {
-      min-height: 100vh;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      position: relative;
-      overflow: hidden;
-    }
-    .hero-left {
-      background: var(--forest);
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: 5rem 4rem;
-      position: relative;
-      overflow: hidden;
-    }
-    .hero-left::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse at 20% 80%, rgba(0,137,123,0.3) 0%, transparent 60%),
-                  radial-gradient(ellipse at 80% 20%, rgba(45,125,90,0.2) 0%, transparent 50%);
-    }
-    /* Decorative grid lines */
-    .hero-left::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(200,221,212,0.06) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(200,221,212,0.06) 1px, transparent 1px);
-      background-size: 40px 40px;
-    }
-    .hero-tag {
-      font-family: var(--mono);
-      font-size: 0.7rem;
-      color: var(--mangrove);
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      margin-bottom: 1.5rem;
-      position: relative;
-      z-index: 1;
-      display: flex;
-      align-items: center;
-      gap: 0.7rem;
-    }
-    .hero-tag::before {
-      content: '';
-      display: inline-block;
-      width: 2rem;
-      height: 1px;
-      background: var(--mangrove);
-    }
-    .hero-name {
-      font-family: var(--serif);
-      font-size: clamp(2.8rem, 5vw, 4.5rem);
-      color: #f5f2eb;
-      line-height: 1.05;
-      position: relative;
-      z-index: 1;
-      margin-bottom: 1.5rem;
-    }
-    .hero-name em {
-      font-style: italic;
-      color: var(--mangrove);
-    }
-    .hero-desc {
-      font-size: 0.95rem;
-      color: var(--mist);
-      line-height: 1.7;
-      max-width: 380px;
-      position: relative;
-      z-index: 1;
-      font-weight: 300;
-      margin-bottom: 2.5rem;
-    }
-    .hero-cta {
-      display: flex;
-      gap: 1rem;
-      position: relative;
-      z-index: 1;
-      flex-wrap: wrap;
-    }
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.75rem 1.5rem;
-      border-radius: 2px;
-      font-family: var(--sans);
-      font-size: 0.82rem;
-      font-weight: 600;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      text-decoration: none;
-      transition: all 0.25s;
-      cursor: pointer;
-    }
-    .btn-primary {
-      background: var(--mangrove);
-      color: var(--ink);
-    }
-    .btn-primary:hover { background: #5dbf97; transform: translateY(-2px); }
-    .btn-ghost {
-      border: 1px solid rgba(200,221,212,0.4);
-      color: var(--mist);
-    }
-    .btn-ghost:hover { border-color: var(--mist); color: #fff; transform: translateY(-2px); }
+img { display: block; max-width: 100%; }
 
-    /* Hero right — decorative data visualization */
-    .hero-right {
-      background: var(--paper);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 6rem 3rem 3rem;
-      position: relative;
-    }
-    .hero-visual {
-      width: 100%;
-      max-width: 420px;
-    }
-    .data-card {
-      background: white;
-      border: 1px solid var(--sand);
-      border-radius: 4px;
-      padding: 1.5rem;
-      margin-bottom: 1rem;
-      position: relative;
-      animation: fadeUp 0.7s ease both;
-      box-shadow: 0 2px 20px rgba(14,26,20,0.06);
-    }
-    .data-card:nth-child(1) { animation-delay: 0.1s; }
-    .data-card:nth-child(2) { animation-delay: 0.25s; margin-left: 2rem; }
-    .data-card:nth-child(3) { animation-delay: 0.4s; }
-    .data-card-label {
-      font-family: var(--mono);
-      font-size: 0.65rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--moss);
-      margin-bottom: 0.4rem;
-    }
-    .data-card-value {
-      font-family: var(--serif);
-      font-size: 2rem;
-      color: var(--forest);
-      line-height: 1;
-    }
-    .data-card-value span {
-      font-family: var(--sans);
-      font-size: 0.8rem;
-      color: var(--moss);
-      font-weight: 400;
-    }
-    .data-card-sub {
-      font-size: 0.75rem;
-      color: #888;
-      margin-top: 0.3rem;
-    }
-    .bar-row {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      margin-top: 0.8rem;
-    }
-    .bar-label { font-family: var(--mono); font-size: 0.62rem; color: #999; width: 55px; flex-shrink: 0; }
-    .bar-track { flex: 1; height: 5px; background: var(--sand); border-radius: 99px; overflow: hidden; }
-    .bar-fill { height: 100%; border-radius: 99px; animation: growBar 1.2s ease both; }
-    .bar-fill.mekong { background: var(--moss); width: 91%; animation-delay: 0.6s; }
-    .bar-fill.mexico { background: var(--tide); width: 76%; animation-delay: 0.8s; }
-    .bar-val { font-family: var(--mono); font-size: 0.62rem; color: var(--ink); width: 32px; text-align: right; }
+.wrap { max-width: 1280px; margin: 0 auto; padding: 0 40px; }
 
-    .tools-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.4rem;
-      margin-top: 0.8rem;
-    }
-    .tool-tag {
-      font-family: var(--mono);
-      font-size: 0.65rem;
-      padding: 0.2rem 0.5rem;
-      background: var(--sand);
-      color: var(--forest);
-      border-radius: 2px;
-      letter-spacing: 0.05em;
-    }
+::selection { background: var(--cyan); color: var(--navy-deep); }
 
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes growBar {
-      from { width: 0; }
-    }
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@keyframes timerBar { from { width: 0%; } to { width: 100%; } }
 
-    /* ── SECTION BASE ── */
-    section { padding: 6rem 3rem; }
-    .section-inner { max-width: 1100px; margin: auto; }
-    .section-eyebrow {
-      font-family: var(--mono);
-      font-size: 0.7rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--moss);
-      margin-bottom: 0.8rem;
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-    }
-    .section-eyebrow::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: var(--sand);
-      max-width: 80px;
-    }
-    .section-title {
-      font-family: var(--serif);
-      font-size: clamp(2rem, 3.5vw, 3rem);
-      color: var(--forest);
-      line-height: 1.15;
-      margin-bottom: 1rem;
-    }
-    .section-lead {
-      font-size: 1rem;
-      color: #555;
-      line-height: 1.75;
-      max-width: 560px;
-      font-weight: 300;
-    }
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}
 
-    /* ── ABOUT ── */
-    #about { background: white; }
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 5rem;
-      align-items: center;
-      margin-top: 3rem;
-    }
-    .about-text p {
-      font-size: 0.95rem;
-      line-height: 1.8;
-      color: #444;
-      margin-bottom: 1.2rem;
-      font-weight: 300;
-    }
-    .skills-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-    }
-    .skill-item {
-      padding: 1.2rem;
-      border: 1px solid var(--sand);
-      border-radius: 3px;
-      transition: border-color 0.2s, transform 0.2s;
-    }
-    .skill-item:hover { border-color: var(--moss); transform: translateY(-3px); }
-    .skill-icon { font-size: 1.4rem; margin-bottom: 0.5rem; }
-    .skill-name {
-      font-family: var(--sans);
-      font-size: 0.82rem;
-      font-weight: 600;
-      color: var(--forest);
-      margin-bottom: 0.2rem;
-    }
-    .skill-desc { font-size: 0.75rem; color: #888; line-height: 1.4; }
+/* ---------------------------------------------------------- */
+/* Reveal-on-scroll                                            */
+/* ---------------------------------------------------------- */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1);
+}
+[data-reveal].is-visible { opacity: 1; transform: none; }
 
-    /* ── PROJECTS ── */
-    #projects { background: var(--paper); }
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 1.5rem;
-      margin-top: 3rem;
-    }
-    .project-card {
-      background: white;
-      border: 1px solid var(--sand);
-      border-radius: 3px;
-      overflow: hidden;
-      transition: transform 0.25s, box-shadow 0.25s;
-      display: flex;
-      flex-direction: column;
-    }
-    .project-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 12px 40px rgba(14,26,20,0.1);
-    }
-    .project-card.featured {
-      grid-column: span 2;
-      flex-direction: row;
-    }
-    .project-stripe {
-      width: 5px;
-      flex-shrink: 0;
-    }
-    .project-card.featured .project-stripe { width: 6px; }
-    .project-body { padding: 1.6rem; flex: 1; display: flex; flex-direction: column; }
-    .project-category {
-      font-family: var(--mono);
-      font-size: 0.62rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--moss);
-      margin-bottom: 0.6rem;
-    }
-    .project-title {
-      font-family: var(--serif);
-      font-size: 1.2rem;
-      color: var(--forest);
-      line-height: 1.3;
-      margin-bottom: 0.7rem;
-    }
-    .project-card.featured .project-title { font-size: 1.5rem; }
-    .project-desc {
-      font-size: 0.82rem;
-      color: #666;
-      line-height: 1.6;
-      flex: 1;
-      font-weight: 300;
-    }
-    .project-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-top: 1.2rem;
-      padding-top: 1rem;
-      border-top: 1px solid var(--sand);
-    }
-    .project-tags { display: flex; gap: 0.35rem; flex-wrap: wrap; }
-    .project-tag {
-      font-family: var(--mono);
-      font-size: 0.6rem;
-      padding: 0.15rem 0.45rem;
-      background: var(--sand);
-      color: #666;
-      border-radius: 2px;
-    }
-    .project-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.3rem;
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: var(--moss);
-      text-decoration: none;
-      letter-spacing: 0.04em;
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-    .project-link:hover { color: var(--forest); }
-    .project-link svg { transition: transform 0.2s; }
-    .project-link:hover svg { transform: translateX(3px); }
+.contour-svg {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  pointer-events: none;
+}
+.contour-svg path { fill: none; stroke: var(--cyan); stroke-width: 1; }
+.contour-svg--panel { opacity: .9; }
 
-    /* stripe colors */
-    .s-mangrove { background: var(--moss); }
-    .s-ocean    { background: var(--tide); }
-    .s-forest   { background: var(--forest); }
-    .s-amber    { background: var(--accent); }
-    .s-red      { background: #e74c3c; }
-    .s-teal     { background: #16a085; }
-    .s-purple   { background: #8e44ad; }
-    .s-blue     { background: #2980b9; }
+/* ---------------------------------------------------------- */
+/* Nav                                                          */
+/* ---------------------------------------------------------- */
+#nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 40;
+  background: transparent; border-bottom: 1px solid transparent;
+  transition: background .3s, border-color .3s;
+}
+#nav.scrolled { background: rgba(6,56,79,0.94); border-bottom-color: rgba(95,199,238,0.18); }
+.nav-inner {
+  padding: 18px 40px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 24px; flex-wrap: wrap;
+}
+.brand { display: flex; align-items: center; gap: 12px; color: var(--cream); }
+.brand-mark {
+  width: 34px; height: 34px; border-radius: 8px; border: 1.5px solid var(--cyan);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-data); font-weight: 600; font-size: 12px; color: var(--cyan);
+}
+.brand-label { font-family: var(--font-data); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; }
+.nav-links { display: flex; gap: 30px; font-family: var(--font-data); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; flex-wrap: wrap; }
+.nav-links a { color: var(--text-body); transition: color .2s; }
+.nav-links a:hover { color: var(--cyan); }
+.nav-links a.accent { color: var(--cyan); }
 
-    /* ── CV SECTION ── */
-    #cv {
-      background: var(--forest);
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-    #cv::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(200,221,212,0.05) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(200,221,212,0.05) 1px, transparent 1px);
-      background-size: 40px 40px;
-    }
-    #cv .section-inner { position: relative; z-index: 1; }
-    #cv .section-eyebrow { color: var(--mangrove); justify-content: center; }
-    #cv .section-eyebrow::after { display: none; }
-    #cv .section-title { color: #f5f2eb; }
-    #cv .section-lead { color: var(--mist); margin: 0 auto 2.5rem; }
-    .cv-stats {
-      display: flex;
-      justify-content: center;
-      gap: 4rem;
-      margin: 2.5rem 0;
-      flex-wrap: wrap;
-    }
-    .cv-stat-value {
-      font-family: var(--serif);
-      font-size: 3rem;
-      color: var(--mangrove);
-      line-height: 1;
-    }
-    .cv-stat-label {
-      font-family: var(--mono);
-      font-size: 0.7rem;
-      color: var(--mist);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      margin-top: 0.3rem;
-    }
+/* ---------------------------------------------------------- */
+/* Shared type / utility                                       */
+/* ---------------------------------------------------------- */
+.eyebrow {
+  font-family: var(--font-data); font-size: 12px; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--cyan); margin-bottom: 18px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+}
+.eyebrow--plain { color: var(--cyan-soft); }
+.eyebrow-rule { width: 32px; height: 1.5px; background: var(--cyan); display: block; }
+.accent-text { color: var(--cyan); }
+.h1 {
+  font-family: var(--font-display); font-weight: 700; font-size: clamp(56px,7.6vw,108px);
+  line-height: .94; letter-spacing: -.04em; margin: 0 0 36px; color: var(--cream);
+}
+.h2 {
+  font-family: var(--font-display); font-weight: 600; font-size: clamp(40px,5vw,64px);
+  line-height: 1; letter-spacing: -.035em; margin: 0;
+}
+.h3 { font-family: var(--font-display); font-weight: 600; font-size: 26px; letter-spacing: -.02em; margin: 0; }
+.h4 { font-family: var(--font-display); font-weight: 600; font-size: 22px; }
+.lede { font-size: 20px; line-height: 1.6; color: var(--text-body); max-width: 560px; margin: 0 0 40px; }
+.section-sub { margin: 16px 0 0; font-size: 17px; line-height: 1.6; color: var(--text-body); max-width: 560px; }
+.section-sub--wide { max-width: 460px; font-size: 18px; line-height: 1.7; color: #e4e3dc; margin: 0; }
+.mono-tag { font-family: var(--font-data); font-size: 12px; letter-spacing: .08em; color: var(--text-muted); white-space: nowrap; }
+.mono-tag--muted { text-transform: uppercase; font-size: 11px; color: #bfd0d3; }
+.mono-tag--accent { font-family: var(--font-data); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--cyan-soft); margin-bottom: 10px; }
+.link-underline { font-family: var(--font-data); font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--cyan); border-bottom: 1.5px solid var(--cyan); padding-bottom: 3px; }
 
-    /* ── CONTACT ── */
-    #contact { background: white; }
-    .contact-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 5rem;
-      margin-top: 3rem;
-      align-items: start;
-    }
-    .contact-info p {
-      font-size: 0.9rem;
-      color: #555;
-      line-height: 1.8;
-      font-weight: 300;
-      margin-bottom: 2rem;
-    }
-    .contact-links { display: flex; flex-direction: column; gap: 1rem; }
-    .contact-link {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      padding: 1rem 1.2rem;
-      border: 1px solid var(--sand);
-      border-radius: 3px;
-      text-decoration: none;
-      color: var(--ink);
-      transition: all 0.2s;
-    }
-    .contact-link:hover { border-color: var(--moss); transform: translateX(4px); }
-    .contact-link-icon {
-      width: 36px; height: 36px;
-      background: var(--sand);
-      border-radius: 2px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1rem;
-      flex-shrink: 0;
-    }
-    .contact-link-text strong { display: block; font-size: 0.85rem; font-weight: 600; color: var(--forest); }
-    .contact-link-text span { font-size: 0.75rem; color: #888; font-family: var(--mono); }
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  font-family: var(--font-body); font-weight: 600; font-size: 15px;
+  padding: 13px 26px; border-radius: 999px; transition: transform .2s, background .2s, color .2s;
+}
+.btn-primary { background: var(--cyan); color: var(--navy-deep); }
+.btn-primary:hover { background: var(--cyan-soft); color: var(--navy-deep); transform: translateY(-2px); }
 
-    .availability-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.5rem 1rem;
-      background: #eafaf3;
-      border: 1px solid #a8e6c8;
-      border-radius: 99px;
-      font-size: 0.78rem;
-      font-weight: 500;
-      color: var(--moss);
-      margin-bottom: 1.5rem;
-    }
-    .availability-dot {
-      width: 7px; height: 7px;
-      background: var(--moss);
-      border-radius: 50%;
-      animation: pulse 2s infinite;
-    }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(0.8); }
-    }
+/* ---------------------------------------------------------- */
+/* Hero                                                          */
+/* ---------------------------------------------------------- */
+.hero {
+  position: relative; overflow: hidden; background: var(--navy-deep);
+  min-height: 100vh; display: flex; align-items: center;
+}
+.hero-grid {
+  position: relative; width: 100%; padding: 140px 40px 96px;
+  display: grid; grid-template-columns: minmax(0,1.3fr) minmax(0,1fr);
+  gap: 64px; align-items: center;
+}
+.hero-ctas { display: flex; gap: 20px; flex-wrap: wrap; align-items: center; }
 
-    /* ── FOOTER ── */
-    footer {
-      background: var(--ink);
-      padding: 2rem 3rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-    footer p {
-      font-family: var(--mono);
-      font-size: 0.7rem;
-      color: #666;
-      letter-spacing: 0.05em;
-    }
-    footer a { color: var(--mangrove); text-decoration: none; }
+.stat-card {
+  background: rgba(14,27,38,0.45); border: 1px solid rgba(95,199,238,0.25);
+  border-radius: 16px; padding: 32px;
+}
+.stat-card-head {
+  display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+  font-family: var(--font-data); font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--text-muted); margin-bottom: 18px;
+}
+.stat-big { display: flex; align-items: baseline; gap: 10px; }
+.stat-big span:first-child {
+  font-family: var(--font-display); font-weight: 700; font-size: clamp(72px,7vw,104px);
+  line-height: 1; letter-spacing: -.045em; color: var(--cream);
+}
+.stat-unit { font-family: var(--font-data); font-size: 18px; color: var(--cyan); }
+.stat-bar {
+  margin: 22px 0 8px; display: flex; height: 12px; border-radius: 999px; overflow: hidden;
+  background: rgba(239,232,220,0.1);
+}
+.stat-bar-fill { background: var(--cyan); }
+.stat-bar-fill--secondary { background: var(--blue-2); }
+.stat-legend {
+  display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+  font-family: var(--font-data); font-size: 11px; color: var(--text-body); margin-bottom: 26px;
+}
+.dot { display: inline-block; width: 8px; height: 8px; margin-right: 4px; }
+.dot-accent { color: var(--cyan); }
+.dot-secondary { color: var(--blue-2); }
+.stat-rows { display: flex; flex-direction: column; }
+.stat-row {
+  display: grid; grid-template-columns: 96px minmax(0,1fr) 60px; gap: 14px; align-items: center;
+  padding: 10px 0; border-top: 1px solid rgba(239,232,220,0.12);
+  font-family: var(--font-data); font-size: 13px;
+}
+.stat-row span:first-child { color: var(--text-body); }
+.stat-row span:last-child { text-align: right; color: var(--cream); }
+.stat-row-bar { height: 6px; border-radius: 999px; background: rgba(239,232,220,0.1); overflow: hidden; }
+.stat-row-bar span { display: block; height: 100%; background: var(--gold); border-radius: 999px; }
+.stat-foot { font-family: var(--font-data); font-size: 11px; color: var(--text-muted); margin-top: 14px; line-height: 1.6; }
 
-    /* ── RESPONSIVE ── */
-    @media (max-width: 768px) {
-      nav { padding: 1rem 1.5rem; }
-      .nav-links { display: none; }
-      .hero { grid-template-columns: 1fr; }
-      .hero-right { display: none; }
-      .hero-left { padding: 7rem 2rem 3rem; min-height: 100vh; }
-      section { padding: 4rem 1.5rem; }
-      .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
-      .projects-grid { grid-template-columns: 1fr; }
-      .project-card.featured { grid-column: span 1; flex-direction: column; }
-      .project-card.featured .project-stripe { width: 100%; height: 5px; }
-      .cv-stats { gap: 2rem; }
-      footer { flex-direction: column; text-align: center; }
-    }
-  </style>
+/* ---------------------------------------------------------- */
+/* Marquee                                                       */
+/* ---------------------------------------------------------- */
+.marquee-band {
+  background: var(--navy-panel); border-top: 1px solid rgba(95,199,238,0.2);
+  border-bottom: 1px solid rgba(95,199,238,0.2); overflow: hidden; padding: 18px 0;
+}
+.marquee-track { display: flex; width: max-content; animation: marquee 40s linear infinite; }
+.marquee-item {
+  display: flex; align-items: center; gap: 48px; padding-right: 48px;
+  font-family: var(--font-data); font-size: 13px; letter-spacing: .08em; text-transform: uppercase;
+  color: #dfe5e3; white-space: nowrap;
+}
+.marquee-item::after { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--cyan); }
+
+/* ---------------------------------------------------------- */
+/* Sections                                                      */
+/* ---------------------------------------------------------- */
+.section { position: relative; }
+.section--about { background: var(--navy-mid); overflow: hidden; }
+.section--about .wrap { padding: 120px 40px; }
+.section--projects { background: var(--navy-deep); }
+.section--projects > .wrap:first-child { padding: 120px 40px 72px; }
+.section--cv { background: var(--navy-mid); }
+.section--cv .wrap { padding: 120px 40px; }
+.section--contact { background: var(--navy-deep); overflow: hidden; }
+
+.section-head { display: flex; justify-content: space-between; align-items: end; gap: 24px; flex-wrap: wrap; margin-bottom: 72px; }
+.section-head--split { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1.3fr); gap: 72px; align-items: end; margin-bottom: 72px; }
+.section-head--tight { margin-bottom: 28px; padding-top: 32px; border-top: 1.5px solid var(--cream); }
+.about-copy { display: flex; flex-direction: column; gap: 16px; font-size: 18px; line-height: 1.7; color: #e4e3dc; max-width: 620px; }
+
+/* Facts row */
+.facts-row {
+  display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 1px;
+  background: rgba(239,232,220,0.18); border: 1px solid rgba(239,232,220,0.18);
+  border-radius: 12px; overflow: hidden; margin-bottom: 56px;
+}
+.fact { background: var(--navy-mid); padding: 22px 26px; display: flex; align-items: center; gap: 16px; }
+.fact-icon { color: var(--cyan-soft); flex: none; font-size: 20px; }
+.fact-k { display: block; font-family: var(--font-data); font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: #bfd0d3; margin-bottom: 3px; }
+.fact-v { display: block; font-family: var(--font-display); font-size: 17px; font-weight: 500; }
+
+/* About tabs + panel */
+.about-panel-grid { display: grid; grid-template-columns: minmax(0,0.9fr) minmax(0,1.1fr); gap: 40px; align-items: stretch; }
+.area-tabs { display: flex; flex-direction: column; border-top: 1.5px solid var(--cream); }
+.area-tab {
+  position: relative; cursor: pointer; text-align: left; border: 0; border-bottom: 1px solid rgba(239,232,220,0.18);
+  background: transparent; color: var(--cream); padding: 20px 16px 20px 16px;
+  display: grid; grid-template-columns: 44px minmax(0,1fr) 22px; gap: 14px; align-items: center;
+  font: inherit; width: 100%; transition: background .3s, padding .3s;
+}
+.area-tab.active { background: rgba(6,56,79,0.35); padding-left: 28px; }
+.area-tab-n { font-family: var(--font-data); font-size: 13px; color: #bfd0d3; }
+.area-tab.active .area-tab-n { color: var(--cyan); }
+.area-tab-title { font-family: var(--font-display); font-weight: 600; font-size: clamp(19px,1.9vw,24px); letter-spacing: -.01em; }
+.area-tab-arrow { color: #bfd0d3; font-size: 16px; opacity: 0; transition: opacity .3s; }
+.area-tab.active .area-tab-arrow { color: var(--cyan); opacity: 1; }
+.area-tab-timer { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: transparent; }
+.area-tab.active .area-tab-timer { background: var(--cyan); animation: timerBar 5s linear forwards; }
+.area-tab.paused.active .area-tab-timer { animation: none; width: 100%; }
+
+.area-panel { background: var(--navy-deep); border-radius: 16px; padding: 40px; position: relative; overflow: hidden; min-height: 440px; }
+.area-panel-inner { position: relative; display: flex; flex-direction: column; gap: 22px; height: 100%; animation: fadeUp .5s cubic-bezier(.2,.7,.2,1); }
+.area-panel-top { display: flex; justify-content: space-between; align-items: flex-start; }
+.area-panel-icon {
+  width: 64px; height: 64px; border-radius: 14px; border: 1.5px solid var(--cyan); color: var(--cyan);
+  display: flex; align-items: center; justify-content: center; font-size: 28px; flex: none;
+}
+.area-panel-n {
+  font-family: var(--font-display); font-weight: 700; font-size: 88px; line-height: .8; letter-spacing: -.05em;
+  color: transparent; -webkit-text-stroke: 1px rgba(95,199,238,0.6);
+}
+.area-panel-title { font-family: var(--font-display); font-weight: 600; font-size: 32px; letter-spacing: -.02em; margin: 0 0 12px; color: var(--cream); }
+.area-panel-desc { margin: 0; font-size: 17px; line-height: 1.65; color: var(--text-body); max-width: 480px; }
+.area-panel-tools { display: flex; gap: 6px; flex-wrap: wrap; }
+.tag {
+  font-family: var(--font-data); font-size: 12px; padding: 5px 10px; border-radius: 6px;
+  border: 1px solid rgba(95,199,238,0.4); color: var(--cyan); white-space: nowrap;
+}
+.area-panel-related { margin-top: auto; border-top: 1px solid rgba(239,232,220,0.14); padding-top: 18px; }
+.area-panel-related-head {
+  display: flex; justify-content: space-between; font-family: var(--font-data); font-size: 11px;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 10px;
+}
+.area-panel-related-head span:last-child { color: var(--cyan); }
+.area-panel-related a {
+  display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; font-size: 14.5px;
+  color: var(--cream); border-bottom: 1px solid rgba(239,232,220,0.08);
+}
+.area-panel-related a span:first-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.area-panel-related a span:last-child { color: var(--cyan); flex: none; }
+
+/* ---------------------------------------------------------- */
+/* Projects — flagships                                         */
+/* ---------------------------------------------------------- */
+.flagships { display: flex; flex-direction: column; gap: 96px; }
+.flagship { display: grid; gap: 56px; align-items: center; }
+.flagship-media {
+  position: relative; border-radius: 16px; overflow: hidden; border: 1px solid rgba(95,199,238,0.25);
+  aspect-ratio: 4/3; background: var(--navy-panel);
+}
+.flagship-media img { width: 100%; height: 100%; object-fit: cover; transition: transform .8s cubic-bezier(.2,.7,.2,1); }
+.flagship-media:hover img { transform: scale(1.03); }
+.flagship-media .img-placeholder {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  text-align: center; padding: 24px; font-family: var(--font-data); font-size: 12px; letter-spacing: .04em;
+  color: var(--text-muted); background: repeating-linear-gradient(135deg, rgba(95,199,238,0.06) 0 12px, transparent 12px 24px);
+}
+.flagship-tag { position: absolute; pointer-events: none; font-family: var(--font-data); font-size: 11px; letter-spacing: .1em; padding: 6px 10px; border-radius: 6px; background: rgba(6,56,79,0.88); white-space: nowrap; }
+.flagship-tag--coord { top: 16px; left: 16px; color: var(--cyan); }
+.flagship-tag--sensor { bottom: 16px; right: 16px; color: var(--cream); }
+.flagship-body { display: flex; flex-direction: column; gap: 22px; }
+.flagship-n-row { display: flex; align-items: center; gap: 14px; }
+.flagship-n { font-family: var(--font-display); font-weight: 700; font-size: 56px; line-height: 1; letter-spacing: -.04em; color: transparent; -webkit-text-stroke: 1px var(--cyan); }
+.flagship-cat { font-family: var(--font-data); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--cyan); }
+.flagship-title { font-family: var(--font-display); font-weight: 600; font-size: clamp(26px,2.6vw,34px); line-height: 1.15; letter-spacing: -.02em; margin: 0; }
+.flagship-desc { margin: 0; font-size: 16.5px; line-height: 1.7; color: #d6dedd; }
+.flagship-kpis { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); border-top: 1px solid rgba(239,232,220,0.16); border-bottom: 1px solid rgba(239,232,220,0.16); }
+.flagship-kpi { padding: 18px 12px 18px 0; }
+.flagship-kpi-v { font-family: var(--font-display); font-weight: 600; font-size: 26px; letter-spacing: -.02em; color: var(--cream); white-space: nowrap; }
+.flagship-kpi-k { font-family: var(--font-data); font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--text-muted); margin-top: 6px; }
+.flagship-foot { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+.flagship-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+
+/* Projects — grid */
+.projects-more-wrap { padding: 72px 40px 120px; }
+.filters { display: flex; gap: 6px; flex-wrap: wrap; }
+.filter-btn {
+  cursor: pointer; white-space: nowrap; display: inline-flex; gap: 8px; align-items: center;
+  padding: 8px 14px; border-radius: 999px; border: 1px solid rgba(95,199,238,0.5);
+  font-family: var(--font-data); font-size: 11px; letter-spacing: .06em; text-transform: uppercase;
+  background: transparent; color: var(--cyan-soft); transition: background .2s, color .2s;
+}
+.filter-btn.active { background: var(--cyan); color: var(--navy-deep); }
+.filter-btn span { opacity: .7; }
+
+.project-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(270px,1fr)); gap: 16px; }
+.project-card {
+  position: relative; display: flex; flex-direction: column; gap: 14px; min-height: 280px; padding: 24px;
+  border-radius: 12px; background: var(--navy-panel); border: 1px solid rgba(239,232,220,0.1);
+  color: var(--cream); overflow: hidden; transition: transform .3s, border-color .3s, background .3s;
+}
+.project-card:hover { transform: translateY(-5px); border-color: rgba(95,199,238,0.6); background: #0d4b69; color: var(--cream); }
+.project-card-head { display: flex; justify-content: space-between; align-items: center; font-family: var(--font-data); font-size: 11px; letter-spacing: .08em; }
+.project-card-head span:first-child { color: var(--cyan); }
+.project-card-head span:last-child { color: var(--text-muted); text-transform: uppercase; white-space: nowrap; }
+.project-card-title { font-family: var(--font-display); font-weight: 600; font-size: 19px; line-height: 1.28; letter-spacing: -.01em; }
+.project-card-desc { font-size: 14.5px; line-height: 1.6; color: #cdd8d9; flex: 1; }
+.project-card-foot { display: flex; justify-content: space-between; align-items: flex-end; gap: 10px; padding-top: 14px; border-top: 1px solid rgba(239,232,220,0.12); }
+.project-card-tags { display: flex; gap: 5px; flex-wrap: wrap; }
+.tag-sm { font-family: var(--font-data); font-size: 10.5px; padding: 3px 7px; border-radius: 5px; background: rgba(95,199,238,0.1); color: var(--cyan-soft); white-space: nowrap; }
+.project-card-pdf { font-family: var(--font-data); font-size: 12px; color: var(--cyan); white-space: nowrap; }
+
+/* ---------------------------------------------------------- */
+/* CV                                                            */
+/* ---------------------------------------------------------- */
+.stats-row { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 16px; margin-bottom: 16px; }
+.stat-tile { background: var(--navy-deep); border-radius: 16px; padding: 32px; display: flex; flex-direction: column; justify-content: space-between; gap: 40px; min-height: 260px; position: relative; overflow: hidden; }
+.stat-tile-head { display: flex; justify-content: space-between; align-items: center; font-family: var(--font-data); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-muted); }
+.stat-tile-head span:last-child { color: var(--cyan); }
+.stat-tile-value { font-family: var(--font-display); font-weight: 700; font-size: clamp(80px,9vw,128px); line-height: .88; letter-spacing: -.05em; color: var(--cream); }
+.stat-tile-label { font-size: 16px; color: var(--text-body); margin-top: 14px; line-height: 1.5; }
+
+.cv-grid { display: grid; grid-template-columns: minmax(0,1.5fr) minmax(0,1fr); gap: 16px; }
+.toolkit-card { background: rgba(14,27,38,0.2); border: 1px solid rgba(239,232,220,0.18); border-radius: 16px; padding: 32px; }
+.toolkit-head { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 24px; }
+.toolbar-row { display: grid; grid-template-columns: 150px minmax(0,1fr) 40px; gap: 18px; align-items: center; padding: 14px 0; border-top: 1px solid rgba(239,232,220,0.14); }
+.toolbar-name { font-family: var(--font-data); font-size: 14px; color: var(--cream); display: block; }
+.toolbar-use { font-size: 12.5px; color: var(--text-muted); display: block; margin-top: 2px; }
+.toolbar-track { height: 10px; border-radius: 999px; background: rgba(239,232,220,0.12); overflow: hidden; }
+.toolbar-fill { display: block; height: 100%; background: var(--cyan-soft); border-radius: 999px; transition: width 1.2s cubic-bezier(.2,.7,.2,1); width: 0; }
+.toolbar-count { font-family: var(--font-data); font-size: 14px; text-align: right; color: var(--cream); }
+
+.cv-side { display: flex; flex-direction: column; gap: 16px; }
+.edu-card { background: rgba(14,27,38,0.2); border: 1px solid rgba(239,232,220,0.18); border-radius: 16px; padding: 28px; flex: 1; }
+.edu-title { font-family: var(--font-display); font-weight: 600; font-size: 22px; line-height: 1.25; margin-bottom: 8px; }
+.edu-sub { font-size: 15px; color: var(--text-body); line-height: 1.6; }
+.cv-download {
+  background: var(--cyan); border-radius: 16px; padding: 28px; color: var(--navy-deep);
+  display: flex; justify-content: space-between; align-items: center; gap: 16px; transition: transform .2s, background .2s;
+}
+.cv-download:hover { transform: translateY(-3px); background: var(--cyan-soft); color: var(--navy-deep); }
+.cv-download-title { display: block; font-family: var(--font-display); font-weight: 700; font-size: 24px; letter-spacing: -.01em; }
+.cv-download-icon { width: 52px; height: 52px; border-radius: 50%; background: var(--navy-deep); color: var(--cyan); display: flex; align-items: center; justify-content: center; font-size: 22px; flex: none; }
+
+/* ---------------------------------------------------------- */
+/* Contact                                                       */
+/* ---------------------------------------------------------- */
+.contact-grid { position: relative; padding: 120px 40px 140px; display: grid; grid-template-columns: minmax(0,1.1fr) minmax(0,1fr); gap: 72px; }
+.pill { white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; border: 1px solid rgba(95,199,238,0.4); font-size: 10px; }
+.pill-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--cyan); }
+.contact-links { display: flex; flex-direction: column; border-top: 1px solid rgba(239,232,220,0.16); margin-top: 40px; }
+.contact-link {
+  display: grid; grid-template-columns: 100px minmax(0,1fr) 24px; gap: 16px; align-items: center;
+  padding: 20px 8px; border-bottom: 1px solid rgba(239,232,220,0.16); color: var(--cream);
+  transition: padding .25s, color .25s;
+}
+.contact-link:hover { padding-left: 18px; color: var(--cyan); }
+.contact-link-label { font-family: var(--font-data); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-muted); }
+.contact-link-value { font-family: var(--font-display); font-size: clamp(17px,1.6vw,21px); overflow: hidden; text-overflow: ellipsis; }
+
+.services-card { background: var(--navy-mid); border-radius: 16px; padding: 36px; align-self: start; }
+.service-item { display: flex; gap: 14px; align-items: center; padding: 14px 0; border-bottom: 1px solid rgba(239,232,220,0.16); font-size: 16px; line-height: 1.4; color: var(--cream); }
+.service-check { width: 22px; height: 22px; border-radius: 6px; background: var(--cyan); color: var(--navy-deep); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex: none; }
+
+.footer-bar { position: relative; border-top: 1px solid rgba(239,232,220,0.12); }
+.footer-inner { padding: 24px 40px 40px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-family: var(--font-data); font-size: 11px; letter-spacing: .08em; color: var(--text-muted); }
+
+/* ---------------------------------------------------------- */
+/* Responsive                                                     */
+/* ---------------------------------------------------------- */
+@media (max-width: 900px) {
+  .wrap { padding: 0 20px; }
+  .hero-grid { grid-template-columns: 1fr; padding: 120px 20px 64px; }
+  .section-head--split { grid-template-columns: 1fr; gap: 32px; }
+  .about-panel-grid { grid-template-columns: 1fr; }
+  .flagship { grid-template-columns: 1fr !important; }
+  .flagship-media { order: 1 !important; }
+  .flagship-body { order: 2 !important; }
+  .facts-row { grid-template-columns: 1fr; }
+  .stats-row { grid-template-columns: 1fr; }
+  .cv-grid { grid-template-columns: 1fr; }
+  .contact-grid { grid-template-columns: 1fr; padding: 96px 20px; }
+  .section--about .wrap, .section--cv .wrap, .section--projects > .wrap:first-child, .projects-more-wrap { padding-left: 20px; padding-right: 20px; }
+}
+
+</style>
 </head>
 <body>
 
-<!-- NAV -->
-<nav>
-  <div class="nav-logo">IVM // Portfolio</div>
-  <ul class="nav-links">
-    <li><a href="#about">About</a></li>
-    <li><a href="#projects">Projects</a></li>
-    <li><a href="#cv">CV</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
+<nav id="nav">
+  <div class="wrap nav-inner">
+    <a href="#top" class="brand">
+      <span class="brand-mark">IVM</span>
+      <span class="brand-label">Portfolio</span>
+    </a>
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#projects">Projects</a>
+      <a href="#cv">CV</a>
+      <a href="#contact" class="accent">Contact →</a>
+    </div>
+  </div>
 </nav>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-left">
-    <div class="hero-tag">Marine Biologist & Environmental Data Analyst</div>
-    <h1 class="hero-name">Israel<br>Vallejo <em>Muñoz</em></h1>
-    <p class="hero-desc">
-      Turning satellite imagery, ecological field data, and spatial statistics
-      into evidence-based insights for conservation, climate, and fisheries.
-    </p>
-    <div class="hero-cta">
-      <a href="#projects" class="btn btn-primary">View Projects</a>
-      <a href="CV Israel Vallejo.pdf" class="btn btn-ghost" target="_blank">Download CV</a>
-    </div>
-  </div>
-  <div class="hero-right">
-    <div class="hero-visual">
-      <div class="data-card">
-        <div class="data-card-label">Mangrove loss by country — SE Asia 1996–2020</div>
-        <div class="bar-row">
-          <div class="bar-label">Indonesia</div>
-          <div class="bar-track"><div class="bar-fill mekong"></div></div>
-          <div class="bar-val">−6.9%</div>
-        </div>
-        <div class="bar-row">
-          <div class="bar-label">Myanmar</div>
-          <div class="bar-track"><div class="bar-fill mexico"></div></div>
-          <div class="bar-val">−8.7%</div>
-        </div>
-        <div class="data-card-sub">Net loss ~330,000 ha · Source: GMW v3.0 (Bunting et al. 2022)</div>
-      </div>
-
-      <div class="data-card">
-        <div class="data-card-label">Blue carbon emissions</div>
-        <div class="data-card-value">582 <span>Mt CO₂e</span></div>
-        <div class="data-card-sub">9 countries · Emission factors: Hamilton & Friess 2018</div>
-        <div class="tools-list">
-          <span class="tool-tag">GEE</span>
-          <span class="tool-tag">R</span>
-          <span class="tool-tag">QGIS</span>
-          <span class="tool-tag">GMW v3.0</span>
-          <span class="tool-tag">Mann-Kendall</span>
-        </div>
-      </div>
-
-      <div class="data-card">
-        <div class="data-card-label">Active skills</div>
-        <div class="tools-list">
-          <span class="tool-tag">Species Distribution Models</span>
-          <span class="tool-tag">MaxEnt</span>
-          <span class="tool-tag">GIS Mapping</span>
-          <span class="tool-tag">Remote Sensing</span>
-          <span class="tool-tag">Fisheries Analysis</span>
-          <span class="tool-tag">NDVI</span>
-          <span class="tool-tag">Bio-Oracle</span>
-          <span class="tool-tag">SSP Scenarios</span>
-        </div>
+<header id="top" class="hero">
+  <svg id="hero-contours" viewBox="0 0 1200 900" preserveAspectRatio="xMidYMid slice" class="contour-svg"></svg>
+  <div class="wrap hero-grid">
+    <div data-reveal>
+      <div class="eyebrow"><span class="eyebrow-rule"></span>Marine Biologist &amp; Environmental Data Analyst</div>
+      <h1 class="h1">Israel<br>Vallejo <span class="accent-text">Muñoz</span></h1>
+      <p class="lede">Turning satellite imagery, ecological field data, and spatial statistics into evidence-based insights for conservation, climate, and fisheries.</p>
+      <div class="hero-ctas">
+        <a href="#projects" class="btn btn-primary">View projects</a>
+        <a href="Curriculum%20Vitae%20Israel%20Vallejo.pdf" class="link-underline">Download CV ↓</a>
       </div>
     </div>
-  </div>
-</section>
 
-<!-- ABOUT -->
-<section id="about">
-  <div class="section-inner">
-    <div class="section-eyebrow">About</div>
-    <h2 class="section-title">Science-driven,<br>data-grounded.</h2>
-    <div class="about-grid">
-      <div class="about-text">
-        <p>
-          I'm a Marine Biologist with a Master's degree in Marine Biology and Aquaculture,
-          specializing in the intersection of ecological science and spatial data analysis.
-          My work spans mangrove conservation, fisheries management, climate modeling,
-          and biodiversity assessment.
-        </p>
-        <p>
-          I use R, QGIS, and Google Earth Engine to turn complex, multi-source datasets
-          into reproducible, publication-quality outputs — maps, models, and reports that
-          support real environmental decision-making.
-        </p>
-        <p>
-          Based in Mexico, working globally with NGOs, research institutions,
-          and environmental agencies.
-        </p>
-        <a href="#contact" class="btn btn-primary" style="margin-top:0.5rem;">Get in touch</a>
+    <div data-reveal data-reveal-delay="160" class="stat-card">
+      <div class="stat-card-head">
+        <span>Blue carbon emissions</span>
+        <span class="accent-text">SE Asia · 1996–2020</span>
       </div>
-      <div class="skills-grid">
-        <div class="skill-item">
-          <div class="skill-icon">🛰️</div>
-          <div class="skill-name">Remote Sensing</div>
-          <div class="skill-desc">Sentinel-2, ALOS PALSAR, Landsat, NDVI, land cover change</div>
+      <div class="stat-big">
+        <span id="mt-counter" data-count-to="582">0</span>
+        <span class="stat-unit">Mt CO₂e</span>
+      </div>
+      <div class="stat-bar">
+        <div class="stat-bar-fill" style="width:72.5%"></div>
+        <div class="stat-bar-fill stat-bar-fill--secondary" style="width:27.5%"></div>
+      </div>
+      <div class="stat-legend">
+        <span><span class="dot dot-accent"></span>Indonesia 422 Mt · 72.5%</span>
+        <span><span class="dot dot-secondary"></span>8 other countries</span>
+      </div>
+      <div class="stat-rows">
+        <div class="stat-row">
+          <span>Myanmar</span>
+          <span class="stat-row-bar"><span style="width:87%"></span></span>
+          <span>−8.7%</span>
         </div>
-        <div class="skill-item">
-          <div class="skill-icon">🗺️</div>
-          <div class="skill-name">GIS & Spatial Analysis</div>
-          <div class="skill-desc">QGIS, Google Earth Engine, spatial statistics, cartography</div>
+        <div class="stat-row">
+          <span>Indonesia</span>
+          <span class="stat-row-bar"><span style="width:69%"></span></span>
+          <span>−6.9%</span>
         </div>
-        <div class="skill-item">
-          <div class="skill-icon">📊</div>
-          <div class="skill-name">Statistical Modeling</div>
-          <div class="skill-desc">R, tidyverse, ggplot2, Mann-Kendall, time series</div>
-        </div>
-        <div class="skill-item">
-          <div class="skill-icon">🐠</div>
-          <div class="skill-name">Species Distribution</div>
-          <div class="skill-desc">MaxEnt, ENMeval, Bio-Oracle, climate projections (SSP)</div>
-        </div>
-        <div class="skill-item">
-          <div class="skill-icon">🌊</div>
-          <div class="skill-name">Marine Ecology</div>
-          <div class="skill-desc">Fisheries, MPAs, blue carbon, coastal ecosystems</div>
-        </div>
-        <div class="skill-item">
-          <div class="skill-icon">📝</div>
-          <div class="skill-name">Science Communication</div>
-          <div class="skill-desc">Technical reports, data storytelling, visual outputs</div>
-        </div>
+      </div>
+      <div class="stat-foot">Net loss ~330,000 ha · GMW v3.0 (Bunting et al. 2022) · Hamilton &amp; Friess 2018</div>
+    </div>
+  </div>
+</header>
+
+<div class="marquee-band">
+  <div class="marquee-track" id="marquee-track"></div>
+</div>
+
+<!-- ============ 01 ABOUT ============ -->
+<section id="about" class="section section--about">
+  <div class="wrap">
+    <div class="section-head section-head--split">
+      <div data-reveal>
+        <div class="eyebrow eyebrow--plain">01 — About</div>
+        <h2 class="h2">Science-driven,<br><span class="accent-text">data-grounded.</span></h2>
+      </div>
+      <div data-reveal data-reveal-delay="120" class="about-copy">
+        <p>Marine Biologist with an MSc in Marine Biology and Aquaculture, working where ecological science meets spatial data analysis — mangrove conservation, fisheries management, climate modeling and biodiversity assessment.</p>
+        <p>I use R, QGIS and Google Earth Engine to turn complex, multi-source datasets into reproducible, publication-quality maps, models and reports that support real environmental decisions.</p>
+      </div>
+    </div>
+
+    <div data-reveal class="facts-row">
+      <div class="fact"><span class="fact-icon">📍</span><span><span class="fact-k">Based in</span><span class="fact-v">Mexico · working globally</span></span></div>
+      <div class="fact"><span class="fact-icon">🤝</span><span><span class="fact-k">Works with</span><span class="fact-v">NGOs, institutes, agencies</span></span></div>
+      <div class="fact"><span class="fact-icon">📄</span><span><span class="fact-k">Output</span><span class="fact-v">Reproducible, publication-ready</span></span></div>
+    </div>
+
+    <div data-reveal data-reveal-delay="80" class="about-panel-grid">
+      <div class="area-tabs" id="area-tabs"></div>
+      <div class="area-panel" id="area-panel">
+        <svg viewBox="0 0 600 500" preserveAspectRatio="xMaxYMin slice" class="contour-svg contour-svg--panel"></svg>
+        <div class="area-panel-inner" id="area-panel-inner"></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- PROJECTS -->
-<section id="projects">
-  <div class="section-inner">
-    <div class="section-eyebrow">Portfolio</div>
-    <h2 class="section-title">Selected projects.</h2>
-    <p class="section-lead">
-      A collection of analytical and geospatial projects across marine conservation,
-      climate modeling, and biodiversity science.
-    </p>
-
-    <div class="projects-grid">
-
-      <!-- FEATURED -->
-      <div class="project-card featured">
-        <div class="project-stripe s-mangrove"></div>
-        <div class="project-body">
-          <div class="project-category">Blue Carbon · Remote Sensing · Featured</div>
-          <h3 class="project-title">Mangrove Extent Change and Blue Carbon Loss in Southeast Asia (1996–2020)</h3>
-          <p class="project-desc">
-            Regional analysis of mangrove dynamics and blue carbon emissions across nine countries
-            in Southeast Asia using Global Mangrove Watch v3.0. Net loss of ~330,000 ha detected
-            over 24 years, with statistically significant decreasing trends in Indonesia, Malaysia,
-            Myanmar, and Vietnam (Mann-Kendall, p &lt; 0.05). Total blue carbon emissions estimated
-            at 582 Mt CO₂e using country-specific emission factors from Hamilton &amp; Friess (2018).
-            Indonesia alone accounts for 72.5% of regional emissions (422 Mt CO₂e).
-          </p>
-          <div class="project-footer">
-            <div class="project-tags">
-              <span class="project-tag">GEE</span>
-              <span class="project-tag">R</span>
-              <span class="project-tag">QGIS</span>
-              <span class="project-tag">GMW v3.0</span>
-              <span class="project-tag">Mann-Kendall</span>
-              <span class="project-tag">Blue Carbon</span>
-            </div>
-            <a href="Mangrove Extent Change and Blue Carbon Loss in Southeast Asia.pdf" class="project-link" target="_blank">
-              View report
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="project-card">
-        <div class="project-stripe s-mangrove"></div>
-        <div class="project-body">
-          <div class="project-category">Blue Carbon · Remote Sensing</div>
-          <h3 class="project-title">Mangrove Loss & Blue Carbon Stock Analysis — Mekong Delta & Mexican Pacific Coast (1996–2020)</h3>
-          <p class="project-desc">Comparative spatiotemporal analysis of mangrove forest loss and blue carbon stock changes across the Mekong Delta (Vietnam) and Mexican Pacific Coast (Oaxaca–Chiapas). Combined carbon loss: 6.68 Mt C over 24 years. Statistically significant declining trend confirmed via Mann-Kendall in the Mekong Delta (τ = −1.0, p = 0.027).</p>
-          <div class="project-footer">
-            <div class="project-tags">
-              <span class="project-tag">R</span>
-              <span class="project-tag">QGIS</span>
-              <span class="project-tag">GMW v3.0</span>
-              <span class="project-tag">Mann-Kendall</span>
-              <span class="project-tag">IPCC</span>
-            </div>
-            <a href="Mangrove Loss & Blue Carbon Stock Analysis (1996–2020).pdf" class="project-link" target="_blank">View <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-          </div>
-        </div>
-      </div>
-
-      <div class="project-card">
-        <div class="project-stripe s-teal"></div>
-        <div class="project-body">
-          <div class="project-category">Remote Sensing · Multi-Sensor · Coastal Change</div>
-          <h3 class="project-title">Multi-Sensor Coastal Cover Change — Ao Phang Nga Bay, Thailand</h3>
-          <p class="project-desc">Integration of Sentinel-1 SAR and Sentinel-2 optical imagery to detect vegetation dynamics across a 7-year period in a tropical mangrove system. Cross-sensor Wilcoxon validation confirmed statistically significant change across NDVI, EVI, and SAR VV (p &lt; 0.05).</p>
-          <div class="project-footer">
-            <div class="project-tags">
-              <span class="project-tag">Sentinel-1</span>
-              <span class="project-tag">Sentinel-2</span>
-              <span class="project-tag">GEE</span>
-              <span class="project-tag">R</span>
-              <span class="project-tag">SAR</span>
-            </div>
-            <a href="Multi-Sensor Coastal Cover Change Analysis Ao Phang Nga Bay, Thailand.pdf" class="project-link" target="_blank">View report <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-          </div>
-        </div>
-      </div>
-
-      <div class="project-card">
-        <div class="project-stripe s-ocean"></div>
-        <div class="project-body">
-          <div class="project-category">Marine Conservation · GIS</div>
-          <h3 class="project-title">Relative Abundance and MPA Overlap of Mobula birostris</h3>
-          <p class="project-desc">Spatial analysis of giant manta ray distribution relative to marine protected area boundaries in the Eastern Pacific.</p>
-          <div class="project-footer">
-            <div class="project-tags"><span class="project-tag">R</span><span class="project-tag">QGIS</span><span class="project-tag">MPA</span></div>
-            <a href="Relative Abundance and MPA Overlap of Mobula birostris.pdf" class="project-link" target="_blank">View <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-          </div>
-        </div>
-      </div>
-
-      <div class="project-card">
-        <div class="project-stripe s-blue"></div>
-        <div class="project-body">
-          <div class="project-category">Climate Modeling · Species Distribution</div>
-          <h3 class="project-title">Projected Distribution of Rhincodon typus Under SSP5-8.5 (2050)</h3>
-          <p class="project-desc">MaxEnt-based habitat suitability projections for whale sharks under high-emission climate scenarios using Bio-Oracle variables.</p>
-          <div class="project-footer">
-            <div class="project-tags"><span class="project-tag">MaxEnt</span><span class="project-tag">Bio-Oracle</span><span class="project-tag">SSP5-8.5</span></div>
-            <a href="Projected Distribution Shifts of Rhincodon typus Under Climate Change Scenario SSP5-8.5 by 2050.pdf" class="project-link" target="_blank">View <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-          </div>
-        </div>
-      </div>
-
-      <div class="project-card">
-        <div class="project-stripe s-amber"></div>
-        <div class="project-body">
-          <div class="project-category">Terrestrial Ecology · SDM</div>
-          <h3 class="project-title">Habitat Suitability of Panthera onca Under Climate Change</h3>
-          <p class="project-desc">Species distribution modeling of jaguar habitat in Mexico and Central America under future climate scenarios, identifying range contraction zones.</p>
-          <div class="project-footer">
-            <div class="project-tags"><span class="project-tag">MaxEnt</span><span class="project-tag">ENMeval</span><span class="project-tag">QGIS</span></div>
-            <a href="Projected Habitat Suitability and Range Change of the Jaguar (Panthera onca) in Response to Climate Change Habitat in Mexico and Central America.pdf" class="project-link" target="_blank">View <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-          </div>
-        </div>
-      </div>
-
-      <div class="project-card">
-        <div class="project-stripe s-teal"></div>
-        <div class="project-body">
-          <div class="project-category">Fisheries · Spatial Analysis</div>
-          <h3 class="project-title">Fishing Effort in Mexican Marine Protected Areas (EEZ)</h3>
-          <p class="project-desc">Spatial analysis of fishing effort overlap within MPAs across Mexico's Exclusive Economic Zone, using AIS-derived vessel tracking data.</p>
-          <div class="project-footer">
-            <div class="project-tags"><span class="project-tag">AIS</span><span class="project-tag">QGIS</span><span class="project-tag">Fisheries</span></div>
-            <a href="Spatial Analysis of Fishing Effort within Marine Protected Areas in the Mexican Exclusive Economic Zone.pdf" class="project-link" target="_blank">View <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-          </div>
-        </div>
-      </div>
-
-      <div class="project-card">
-        <div class="project-stripe s-amber"></div>
-        <div class="project-body">
-          <div class="project-category">Fisheries · Climate</div>
-          <h3 class="project-title">GHG Inventory of the Artisanal Fishing Fleet — Mexico 2022</h3>
-          <p class="project-desc">Greenhouse gas accounting for Mexico's small-scale fishing sector, estimating CO₂, CH₄ and N₂O emissions by fleet segment using GHG Protocol methodology and R.</p>
-          <div class="project-footer">
-            <div class="project-tags"><span class="project-tag">GHG Protocol</span><span class="project-tag">R</span><span class="project-tag">Fisheries</span></div>
-            <a href="GHG Inventory Artisanal Fishing Fleet Mexico 2022.pdf" class="project-link" target="_blank">View <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-          </div>
-        </div>
-      </div>
-
-      <div class="project-card">
-        <div class="project-stripe s-forest"></div>
-        <div class="project-body">
-          <div class="project-category">Remote Sensing · NDVI</div>
-          <h3 class="project-title">Deforestation Analysis in Central Borneo (NDVI)</h3>
-          <p class="project-desc">Temporal NDVI-based remote sensing analysis of forest cover loss in Central Borneo, quantifying deforestation rates and spatial patterns.</p>
-          <div class="project-footer">
-            <div class="project-tags"><span class="project-tag">NDVI</span><span class="project-tag">Sentinel-2</span><span class="project-tag">GEE</span></div>
-            <a href="Temporal Analysis of Deforestation in Central Borneo Through NDVI-Based Remote Sensing.pdf" class="project-link" target="_blank">View <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-          </div>
-        </div>
-      </div>
-
-      <div class="project-card">
-        <div class="project-stripe s-red"></div>
-        <div class="project-body">
-          <div class="project-category">Urban Ecology · Remote Sensing</div>
-          <h3 class="project-title">Urban Heat Islands & Vegetation Cover in Ho Chi Minh City</h3>
-          <p class="project-desc">Analysis of urban heat island intensity and its relationship with vegetation cover loss in Ho Chi Minh City using thermal infrared and NDVI data.</p>
-          <div class="project-footer">
-            <div class="project-tags"><span class="project-tag">LST</span><span class="project-tag">NDVI</span><span class="project-tag">Landsat</span></div>
-            <a href="Urban Heat Islands and Vegetation Cover in Ho Chi Minh City.pdf" class="project-link" target="_blank">View <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-          </div>
-        </div>
-      </div>
-
-      <div class="project-card">
-        <div class="project-stripe s-purple"></div>
-        <div class="project-body">
-          <div class="project-category">Fisheries Management</div>
-          <h3 class="project-title">Stock Status of Bigeye Tuna (Thunnus obesus) — Eastern Pacific</h3>
-          <p class="project-desc">Assessment of stock status and management challenges for bigeye tuna in the Eastern Pacific Ocean, integrating catch data and biomass estimates.</p>
-          <div class="project-footer">
-            <div class="project-tags"><span class="project-tag">Stock Assessment</span><span class="project-tag">R</span><span class="project-tag">IATTC</span></div>
-            <a href="Stock Status and Management Challenges of Bigeye Tuna (Thunnus obesus) in the Eastern Pacific Ocean.pdf" class="project-link" target="_blank">View <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- CV -->
-<section id="cv">
-  <div class="section-inner">
-    <div class="section-eyebrow">Curriculum Vitae</div>
-    <h2 class="section-title">Experience &<br>academic background.</h2>
-    <p class="section-lead">
-      MSc in Marine Biology and Aquaculture, with research experience spanning
-      fisheries ecology, spatial modeling, and conservation biology.
-    </p>
-    <div class="cv-stats">
+<!-- ============ 02 PROJECTS ============ -->
+<section id="projects" class="section section--projects">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
       <div>
-        <div class="cv-stat-value">10+</div>
-        <div class="cv-stat-label">Portfolio Projects</div>
+        <div class="eyebrow">02 — Portfolio</div>
+        <h2 class="h2">Flagship projects.</h2>
+        <p class="section-sub">Three analyses that show the full workflow — from raw satellite and occurrence data to statistically tested, decision-ready results.</p>
       </div>
-      <div>
-        <div class="cv-stat-value">3</div>
-        <div class="cv-stat-label">Core Tools (R · QGIS · GEE)</div>
-      </div>
-      <div>
-        <div class="cv-stat-value">MSc</div>
-        <div class="cv-stat-label">Marine Biology & Aquaculture</div>
-      </div>
+      <span class="mono-tag" id="portfolio-tally">03 flagship · 07 more · PDF reports</span>
     </div>
-    <a href="CV Israel Vallejo.pdf" class="btn btn-primary" target="_blank" style="font-size:0.9rem; padding: 0.9rem 2rem;">
-      Download Full CV (PDF)
-    </a>
+
+    <div class="flagships" id="flagships"></div>
+  </div>
+
+  <div class="wrap projects-more-wrap">
+    <div class="section-head section-head--tight" data-reveal>
+      <h3 class="h3">More projects</h3>
+      <div class="filters" id="filters"></div>
+    </div>
+    <div class="project-grid" id="project-grid"></div>
   </div>
 </section>
 
-<!-- CONTACT -->
-<section id="contact">
-  <div class="section-inner">
-    <div class="section-eyebrow">Contact</div>
-    <h2 class="section-title">Let's work together.</h2>
-    <div class="contact-grid">
-      <div class="contact-info">
-        <div class="availability-badge">
-          <span class="availability-dot"></span>
-          Available for freelance projects
-        </div>
-        <p>
-          I'm open to collaborations with NGOs, research institutions, and environmental
-          agencies on GIS analysis, ecological modeling, species distribution, and
-          remote sensing projects. Based in Mexico, working remotely worldwide.
-        </p>
-        <div class="contact-links">
-          <a href="mailto:israelvallejo.mz@gmail.com" class="contact-link">
-            <div class="contact-link-icon">✉️</div>
-            <div class="contact-link-text">
-              <strong>Email</strong>
-              <span>israelvallejo.mz@gmail.com</span>
-            </div>
-          </a>
-          <a href="https://www.linkedin.com/in/israel-vallejo-mz" class="contact-link" target="_blank">
-            <div class="contact-link-icon">💼</div>
-            <div class="contact-link-text">
-              <strong>LinkedIn</strong>
-              <span>israel-vallejo-mz</span>
-            </div>
-          </a>
-          <a href="https://www.upwork.com/freelancers/~019bb73e424254e3a9?nav_dir=pop" class="contact-link" target="_blank">
-            <div class="contact-link-icon">🔗</div>
-            <div class="contact-link-text">
-              <strong>Upwork</strong>
-              <span>Hire me for freelance projects</span>
-            </div>
-          </a>
-        </div>
-      </div>
+<!-- ============ 03 CV ============ -->
+<section id="cv" class="section section--cv">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
       <div>
-        <div class="data-card" style="animation:none;">
-          <div class="data-card-label">What I can help with</div>
-          <div style="display:flex; flex-direction:column; gap:0.7rem; margin-top:0.8rem;">
-            <div style="display:flex; align-items:center; gap:0.7rem; font-size:0.85rem; color:#444;">
-              <span style="color:var(--moss); font-size:1rem;">✓</span> GHG inventories & emissions accounting (fisheries)
-            </div>
-            <div style="display:flex; align-items:center; gap:0.7rem; font-size:0.85rem; color:#444;">
-              <span style="color:var(--moss); font-size:1rem;">✓</span> Mangrove & coastal ecosystem mapping
-            </div>
-            <div style="display:flex; align-items:center; gap:0.7rem; font-size:0.85rem; color:#444;">
-              <span style="color:var(--moss); font-size:1rem;">✓</span> Species distribution modeling (MaxEnt)
-            </div>
-            <div style="display:flex; align-items:center; gap:0.7rem; font-size:0.85rem; color:#444;">
-              <span style="color:var(--moss); font-size:1rem;">✓</span> Blue carbon & ecosystem services analysis
-            </div>
-            <div style="display:flex; align-items:center; gap:0.7rem; font-size:0.85rem; color:#444;">
-              <span style="color:var(--moss); font-size:1rem;">✓</span> Fisheries spatial analysis & MPA planning
-            </div>
-            <div style="display:flex; align-items:center; gap:0.7rem; font-size:0.85rem; color:#444;">
-              <span style="color:var(--moss); font-size:1rem;">✓</span> NDVI & land cover change detection
-            </div>
-            <div style="display:flex; align-items:center; gap:0.7rem; font-size:0.85rem; color:#444;">
-              <span style="color:var(--moss); font-size:1rem;">✓</span> Climate scenario projections (SSP)
-            </div>
-            <div style="display:flex; align-items:center; gap:0.7rem; font-size:0.85rem; color:#444;">
-              <span style="color:var(--moss); font-size:1rem;">✓</span> Publication-ready maps & scientific reports
-            </div>
-          </div>
+        <div class="eyebrow eyebrow--plain">03 — Curriculum Vitae</div>
+        <h2 class="h2">Experience &amp;<br>academic background.</h2>
+      </div>
+      <p class="section-sub section-sub--wide">Research experience spanning fisheries ecology, spatial modeling, and conservation biology.</p>
+    </div>
+
+    <div class="stats-row" id="stats-row"></div>
+
+    <div class="cv-grid">
+      <div class="toolkit-card" data-reveal>
+        <div class="toolkit-head">
+          <span class="h4">Toolkit in practice</span>
+          <span class="mono-tag mono-tag--muted">Projects using each tool</span>
         </div>
+        <div class="toolbars" id="toolbars"></div>
+      </div>
+      <div class="cv-side" data-reveal data-reveal-delay="120">
+        <div class="edu-card">
+          <div class="mono-tag mono-tag--accent">Education</div>
+          <div class="edu-title">MSc in Marine Biology and Aquaculture</div>
+          <div class="edu-sub">Fisheries ecology · Spatial modeling · Conservation biology</div>
+        </div>
+        <a href="Curriculum%20Vitae%20Israel%20Vallejo.pdf" class="cv-download">
+          <span>
+            <span class="cv-download-title">Download full CV</span>
+            <span class="mono-tag">PDF · ENGLISH</span>
+          </span>
+          <span class="cv-download-icon">↓</span>
+        </a>
       </div>
     </div>
   </div>
 </section>
 
-<!-- FOOTER -->
-<footer>
-  <p>© 2026 Israel Vallejo Muñoz · Marine Biologist & Environmental Data Analyst
+<!-- ============ 04 CONTACT ============ -->
+<section id="contact" class="section section--contact">
+  <svg viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice" class="contour-svg"></svg>
+  <div class="wrap contact-grid">
+    <div data-reveal>
+      <div class="eyebrow">04 — Contact <span class="pill"><span class="pill-dot"></span>Available for freelance</span></div>
+      <h2 class="h2">Let's work together.</h2>
+      <p class="section-sub">Open to collaborations with NGOs, research institutions, and environmental agencies on GIS analysis, ecological modeling, species distribution, and remote sensing. Based in Mexico, working remotely worldwide.</p>
+      <div class="contact-links" id="contact-links"></div>
+    </div>
+    <div data-reveal data-reveal-delay="150" class="services-card">
+      <div class="mono-tag mono-tag--accent">What I can help with</div>
+      <div id="services-list"></div>
+    </div>
+  </div>
+  <div class="footer-bar">
+    <div class="wrap footer-inner">
+      <span>© 2026 Israel Vallejo Muñoz</span>
+      <span>Marine Biologist &amp; Environmental Data Analyst</span>
+    </div>
+  </div>
+</section>
+
+<script>
+/* ============================================================
+   ISRAEL VALLEJO MUÑOZ — PORTFOLIO
+   Vanilla JS — no build step, no framework. Edit the DATA block
+   below to add/change projects; everything else (counts, tabs,
+   filters) recomputes automatically.
+   ============================================================ */
+
+(function () {
+  'use strict';
+
+  /* ---------------------------------------------------------
+     DATA — edit this to update the site's content
+  --------------------------------------------------------- */
+
+  const BASE_PDF = ''; // PDFs live next to index.html; change if you move them into a /pdf folder
+
+  const projects = [
+    { id: 0, cat: 'Blue Carbon', title: 'Mangrove Extent Change and Blue Carbon Loss in Southeast Asia (1996–2020)',
+      desc: 'Regional analysis of mangrove dynamics and blue carbon emissions across nine SE Asian countries.',
+      long: 'Regional analysis of mangrove dynamics across nine Southeast Asian countries using Global Mangrove Watch v3.0. Net loss of ~330,000 ha over 24 years, with significant decreasing trends in Indonesia, Malaysia, Myanmar and Vietnam (Mann-Kendall, p < 0.05). Emissions estimated with country-specific factors from Hamilton & Friess (2018).',
+      tags: ['GEE', 'R', 'QGIS', 'GMW v3.0', 'Mann-Kendall'],
+      pdf: BASE_PDF + encodeURI('Mangrove Extent Change and Blue Carbon Loss in Southeast Asia.pdf') },
+
+    { id: 1, cat: 'Blue Carbon', title: 'Mangrove Loss & Blue Carbon Stock — Mekong Delta & Mexican Pacific Coast',
+      desc: 'Comparative analysis of mangrove loss and carbon stock change, 1996–2020. Combined loss: 6.68 Mt C.',
+      long: '',
+      tags: ['R', 'QGIS', 'GMW v3.0', 'IPCC'],
+      pdf: BASE_PDF + encodeURI('Mangrove Loss & Blue Carbon Stock Analysis (1996–2020).pdf') },
+
+    { id: 2, cat: 'Remote Sensing', title: 'Multi-Sensor Coastal Cover Change — Ao Phang Nga Bay, Thailand',
+      desc: '',
+      long: 'Integration of Sentinel-1 SAR and Sentinel-2 optical imagery to detect vegetation dynamics across a 7-year period in a tropical mangrove system. Cross-sensor Wilcoxon validation confirmed statistically significant change across NDVI, EVI and SAR VV.',
+      tags: ['Sentinel-1', 'Sentinel-2', 'GEE', 'R', 'SAR'],
+      pdf: BASE_PDF + encodeURI('Multi-Sensor Coastal Cover Change Analysis Ao Phang Nga Bay, Thailand.pdf') },
+
+    { id: 3, cat: 'Fisheries & MPAs', title: 'Relative Abundance and MPA Overlap of Mobula birostris',
+      desc: 'Giant manta ray distribution relative to marine protected area boundaries in the Eastern Pacific.',
+      long: '',
+      tags: ['R', 'QGIS', 'MPA'],
+      pdf: BASE_PDF + encodeURI('Relative Abundance and MPA Overlap of Mobula birostris.pdf') },
+
+    { id: 4, cat: 'Species Distribution', title: 'Projected Distribution of Rhincodon typus Under SSP5-8.5 (2050)',
+      desc: '',
+      long: 'MaxEnt-based habitat suitability projections for the whale shark under a high-emission climate scenario, built on Bio-Oracle environmental layers to map where suitable habitat is expected to shift by mid-century.',
+      tags: ['MaxEnt', 'Bio-Oracle', 'SSP5-8.5'],
+      pdf: BASE_PDF + encodeURI('Projected Distribution Shifts of Rhincodon typus Under Climate Change Scenario SSP5-8.5 by 2050.pdf') },
+
+    { id: 5, cat: 'Species Distribution', title: 'Habitat Suitability of Panthera onca Under Climate Change',
+      desc: 'Jaguar habitat modeling in Mexico and Central America, identifying range contraction zones.',
+      long: '',
+      tags: ['MaxEnt', 'ENMeval', 'QGIS'],
+      pdf: BASE_PDF + encodeURI('Projected Habitat Suitability and Range Change of the Jaguar (Panthera onca) Under Climate Change.pdf') },
+
+    { id: 6, cat: 'Fisheries & MPAs', title: 'Fishing Effort in Mexican Marine Protected Areas (EEZ)',
+      desc: "AIS-derived fishing effort overlap within MPAs across Mexico's Exclusive Economic Zone.",
+      long: '',
+      tags: ['AIS', 'QGIS', 'Fisheries'],
+      pdf: BASE_PDF + encodeURI('Spatial Analysis of Fishing Effort within Marine Protected Areas in the Mexican Exclusive Economic Zone.pdf') },
+
+    { id: 7, cat: 'Fisheries & MPAs', title: 'GHG Inventory of the Artisanal Fishing Fleet — Mexico 2022',
+      desc: 'CO₂, CH₄ and N₂O emissions by fleet segment using GHG Protocol methodology.',
+      long: '',
+      tags: ['GHG Protocol', 'R', 'Fisheries'],
+      pdf: BASE_PDF + encodeURI('GHG Inventory Artisanal Fishing Fleet Mexico 2022.pdf') },
+
+    { id: 8, cat: 'Remote Sensing', title: 'Deforestation Analysis in Central Borneo (NDVI)',
+      desc: 'Temporal NDVI analysis quantifying forest loss rates and spatial patterns.',
+      long: '',
+      tags: ['NDVI', 'Sentinel-2', 'GEE'],
+      pdf: BASE_PDF + encodeURI('Temporal Analysis of Deforestation in Central Borneo Through NDVI-Based Remote Sensing.pdf') },
+
+    { id: 9, cat: 'Remote Sensing', title: 'Urban Heat Islands & Vegetation Cover in Ho Chi Minh City',
+      desc: 'Heat island intensity vs. vegetation loss from thermal infrared and NDVI data.',
+      long: '',
+      tags: ['LST', 'NDVI', 'Landsat'],
+      pdf: BASE_PDF + encodeURI('Urban Heat Islands and Vegetation Cover in Ho Chi Minh City.pdf') }
+  ];
+
+  // Flagship (featured) projects — image goes in /images, see the filename below.
+  // Drop your own map/figure there with that exact name and it appears automatically.
+  const flagMeta = {
+    0: { coord: '2.5°S 118.0°E · SE ASIA', sensor: 'GMW v3.0 · 1996–2020',
+         image: 'images/mangrove-sea-asia.png', placeholder: 'Drop the SE Asia mangrove loss map here\n(images/mangrove-sea-asia.png)',
+         kpis: [{ v: '582 Mt', k: 'CO₂e emitted' }, { v: '330k ha', k: 'Net loss' }, { v: '72.5%', k: 'Indonesia share' }] },
+    2: { coord: '8.3°N 98.5°E · THAILAND', sensor: 'SENTINEL-1 SAR + S-2',
+         image: 'images/phang-nga-bay-thailand.png', placeholder: 'Drop the Ao Phang Nga change map here\n(images/phang-nga-bay-thailand.png)',
+         kpis: [{ v: '7 yrs', k: 'Time series' }, { v: '2', k: 'Sensors fused' }, { v: 'p < 0.05', k: 'NDVI · EVI · VV' }] },
+    4: { coord: 'GLOBAL · 2050', sensor: 'MAXENT · BIO-ORACLE',
+         image: 'images/whale-shark-sdm.png', placeholder: 'Drop the whale shark suitability map here\n(images/whale-shark-sdm.png)',
+         kpis: [{ v: 'SSP5-8.5', k: 'Scenario' }, { v: '2050', k: 'Horizon' }, { v: 'MaxEnt', k: 'Model' }] }
+  };
+  const flagIds = [0, 2, 4];
+
+  const areaDefs = [
+    { icon: '🛰️', title: 'Remote Sensing', desc: 'Multi-sensor time series to measure how coastlines, mangroves and forests change — optical and radar combined.', tools: ['Sentinel-2', 'Sentinel-1 SAR', 'ALOS PALSAR', 'Landsat', 'NDVI / EVI', 'Land cover change'], match: p => p.tags.some(t => /Sentinel|NDVI|Landsat|SAR|GEE|GMW|LST/.test(t)) },
+    { icon: '🗺️', title: 'GIS & Spatial Analysis', desc: 'Spatial overlays, hotspot analysis and cartography that make patterns legible for managers.', tools: ['QGIS', 'Google Earth Engine', 'Spatial statistics', 'Cartography'], match: p => p.tags.some(t => /QGIS|GEE|AIS|MPA/.test(t)) },
+    { icon: '📊', title: 'Statistical Modeling', desc: 'Reproducible R workflows with trend tests and time-series analysis that hold up to review.', tools: ['R', 'tidyverse', 'ggplot2', 'Mann-Kendall', 'Time series'], match: p => p.tags.includes('R') },
+    { icon: '🐠', title: 'Species Distribution', desc: 'Habitat suitability and range-shift projections under future climate scenarios.', tools: ['MaxEnt', 'ENMeval', 'Bio-Oracle', 'SSP scenarios'], match: p => p.cat === 'Species Distribution' },
+    { icon: '🌊', title: 'Marine Ecology', desc: 'Ecological grounding for every dataset — from blue carbon to fisheries and protected areas.', tools: ['Fisheries', 'MPAs', 'Blue carbon', 'Coastal ecosystems'], match: p => p.cat === 'Fisheries & MPAs' || p.cat === 'Blue Carbon' },
+    { icon: '📝', title: 'Science Communication', desc: 'Technical reports, data storytelling and visual outputs that non-specialists can act on.', tools: ['Technical reports', 'Data storytelling', 'Visual outputs'], match: () => true }
+  ];
+
+  const skills = ['R', 'Google Earth Engine', 'QGIS', 'MaxEnt', 'Sentinel-1 / 2', 'Landsat', 'NDVI', 'Bio-Oracle', 'SSP Scenarios', 'Mann-Kendall', 'ENMeval', 'GHG Protocol'];
+
+  const toolDefs = [
+    ['R', 'Stats & modeling', 'R'],
+    ['QGIS', 'Mapping & overlays', 'QGIS'],
+    ['GEE', 'Satellite processing', 'GEE'],
+    ['MaxEnt', 'Species distribution', 'MaxEnt'],
+    ['Sentinel', 'Optical + SAR imagery', 'Sentinel']
+  ];
+
+  const contactLinks = [
+    { label: 'Email', value: 'israelvallejo.mz@gmail.com', href: 'mailto:israelvallejo.mz@gmail.com' },
+    { label: 'LinkedIn', value: 'israel-vallejo-mz', href: 'https://www.linkedin.com/in/israel-vallejo-mz' },
+    { label: 'Upwork', value: 'Hire me for freelance projects', href: 'https://www.upwork.com/freelancers/~019bb73e424254e3a9' }
+  ];
+
+  const services = ['GHG inventories & emissions accounting (fisheries)', 'Mangrove & coastal ecosystem mapping', 'Species distribution modeling (MaxEnt)', 'Blue carbon & ecosystem services analysis', 'Fisheries spatial analysis & MPA planning', 'NDVI & land cover change detection', 'Climate scenario projections (SSP)', 'Publication-ready maps & scientific reports'];
+
+  /* ---------------------------------------------------------
+     Helpers
+  --------------------------------------------------------- */
+  const fmt = i => String(i + 1).padStart(2, '0');
+  const el = (tag, cls, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html !== undefined) e.innerHTML = html; return e; };
+
+  /* ---------------------------------------------------------
+     Contour background decoration (lightweight, generated once)
+  --------------------------------------------------------- */
+  function contour(cx, cy, levels, r0, gap, seed, amp) {
+    amp = amp || 1;
+    const out = [];
+    for (let k = 0; k < levels; k++) {
+      const r = r0 + k * gap, M = 60, pts = [];
+      for (let j = 0; j < M; j++) {
+        const a = (j / M) * Math.PI * 2;
+        const f = 1 + amp * (0.14 * Math.sin(3 * a + seed + k * 0.22) + 0.08 * Math.sin(5 * a + seed * 1.7 - k * 0.15));
+        pts.push([cx + Math.cos(a) * r * f * 1.25, cy + Math.sin(a) * r * f]);
+      }
+      let d = 'M' + ((pts[0][0] + pts[1][0]) / 2).toFixed(1) + ',' + ((pts[0][1] + pts[1][1]) / 2).toFixed(1);
+      for (let j = 1; j <= M; j++) {
+        const c = pts[j % M], nx = pts[(j + 1) % M];
+        d += ' Q' + c[0].toFixed(1) + ',' + c[1].toFixed(1) + ' ' + ((c[0] + nx[0]) / 2).toFixed(1) + ',' + ((c[1] + nx[1]) / 2).toFixed(1);
+      }
+      out.push({ d: d, opacity: (0.4 * (1 - k / (levels + 2))).toFixed(3) });
+    }
+    return out;
+  }
+
+  function paintContours(svg, paths) {
+    if (!svg) return;
+    const frag = document.createDocumentFragment();
+    paths.forEach(p => {
+      const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      path.setAttribute('d', p.d);
+      path.setAttribute('opacity', p.opacity);
+      frag.appendChild(path);
+    });
+    svg.appendChild(frag);
+  }
+
+  paintContours(document.getElementById('hero-contours'), contour(980, 380, 14, 40, 30, 1.3).concat(contour(120, 860, 7, 60, 36, 4.1)));
+  document.querySelectorAll('.section--about .contour-svg--panel').forEach(svg => paintContours(svg, contour(560, 60, 10, 30, 30, 2.2)));
+  document.querySelectorAll('.section--contact .contour-svg').forEach(svg => paintContours(svg, contour(1100, 620, 12, 30, 32, 5.2)));
+
+  /* ---------------------------------------------------------
+     Nav background on scroll
+  --------------------------------------------------------- */
+  const nav = document.getElementById('nav');
+  const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 60);
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  /* ---------------------------------------------------------
+     Scroll reveal
+  --------------------------------------------------------- */
+  const revealables = document.querySelectorAll('[data-reveal]');
+  revealables.forEach(node => {
+    const delay = node.getAttribute('data-reveal-delay') || '0';
+    node.style.transitionDelay = delay + 'ms';
+  });
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  revealables.forEach(node => io.observe(node));
+
+  /* ---------------------------------------------------------
+     Hero counter (counts up once visible)
+  --------------------------------------------------------- */
+  const counter = document.getElementById('mt-counter');
+  if (counter) {
+    const target = parseInt(counter.getAttribute('data-count-to'), 10);
+    const counterObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const start = performance.now();
+        const duration = 1600;
+        const step = now => {
+          const k = Math.min(1, (now - start) / duration);
+          const eased = 1 - Math.pow(1 - k, 3);
+          counter.textContent = Math.round(target * eased);
+          if (k < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
+        counterObserver.disconnect();
+      });
+    }, { threshold: 0.4 });
+    counterObserver.observe(counter);
+  }
+
+  /* ---------------------------------------------------------
+     Marquee
+  --------------------------------------------------------- */
+  const marqueeTrack = document.getElementById('marquee-track');
+  if (marqueeTrack) {
+    const rowHtml = skills.map(s => '<span class="marquee-item">' + s + '</span>').join('');
+    marqueeTrack.innerHTML = rowHtml + rowHtml; // duplicated for seamless loop
+  }
+
+  /* ---------------------------------------------------------
+     About — area tabs
+  --------------------------------------------------------- */
+  const areas = areaDefs.map((a, i) => ({ ...a, n: fmt(i), related: projects.filter(a.match) }));
+  let activeArea = 0;
+  let paused = false;
+  let cycleTimer = null;
+
+  const tabsEl = document.getElementById('area-tabs');
+  const panelInner = document.getElementById('area-panel-inner');
+  const panelWrap = document.getElementById('area-panel');
+
+  function renderTabs() {
+    tabsEl.innerHTML = '';
+    areas.forEach((a, i) => {
+      const btn = el('button', 'area-tab' + (i === activeArea ? ' active' : '') + (paused ? ' paused' : ''));
+      btn.innerHTML =
+        '<span class="area-tab-n">' + a.n + '</span>' +
+        '<span class="area-tab-title">' + a.title + '</span>' +
+        '<span class="area-tab-arrow">→</span>' +
+        '<span class="area-tab-timer"></span>';
+      btn.addEventListener('mouseenter', () => selectArea(i, true));
+      btn.addEventListener('click', () => selectArea(i, true));
+      tabsEl.appendChild(btn);
+    });
+  }
+
+  function renderPanel() {
+    const a = areas[activeArea];
+    panelInner.innerHTML =
+      '<div class="area-panel-top">' +
+        '<span class="area-panel-icon">' + a.icon + '</span>' +
+        '<span class="area-panel-n">' + a.n + '</span>' +
+      '</div>' +
+      '<div>' +
+        '<h3 class="area-panel-title">' + a.title + '</h3>' +
+        '<p class="area-panel-desc">' + a.desc + '</p>' +
+      '</div>' +
+      '<div class="area-panel-tools">' + a.tools.map(t => '<span class="tag">' + t + '</span>').join('') + '</div>' +
+      '<div class="area-panel-related">' +
+        '<div class="area-panel-related-head"><span>Applied in</span><span>' + a.related.length + ' / ' + projects.length + ' projects</span></div>' +
+        a.related.slice(0, 3).map(r => '<a href="' + r.pdf + '"><span>' + r.title + '</span><span>↗</span></a>').join('') +
+      '</div>';
+  }
+
+  function selectArea(i, userInitiated) {
+    activeArea = i;
+    if (userInitiated) paused = true;
+    renderTabs();
+    renderPanel();
+  }
+
+  function startCycle() {
+    if (cycleTimer) clearInterval(cycleTimer);
+    cycleTimer = setInterval(() => {
+      if (paused) return;
+      activeArea = (activeArea + 1) % areas.length;
+      renderTabs();
+      renderPanel();
+    }, 5000);
+  }
+
+  panelWrap.parentElement.addEventListener('mouseleave', () => { paused = false; renderTabs(); });
+
+  renderTabs();
+  renderPanel();
+  startCycle();
+
+  /* ---------------------------------------------------------
+     Projects — flagships
+  --------------------------------------------------------- */
+  const flagshipsEl = document.getElementById('flagships');
+  flagIds.forEach((id, i) => {
+    const p = projects[id];
+    const meta = flagMeta[id];
+    const reversed = i % 2 === 1;
+    const article = el('article', 'flagship');
+    article.setAttribute('data-reveal', '');
+    article.style.gridTemplateColumns = reversed ? 'minmax(0,1fr) minmax(0,1.15fr)' : 'minmax(0,1.15fr) minmax(0,1fr)';
+
+    const media = el('div', 'flagship-media');
+    media.style.order = reversed ? '2' : '1';
+    media.innerHTML =
+      '<img src="' + meta.image + '" alt="' + p.title + '" loading="lazy" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\';">' +
+      '<div class="img-placeholder">' + meta.coord + '</div>' +
+      '<span class="flagship-tag flagship-tag--coord">' + meta.coord + '</span>' +
+      '<span class="flagship-tag flagship-tag--sensor">' + meta.sensor + '</span>';
+
+    const body = el('div', 'flagship-body');
+    body.style.order = reversed ? '1' : '2';
+    body.innerHTML =
+      '<div class="flagship-n-row"><span class="flagship-n">' + fmt(i) + '</span><span class="flagship-cat">' + p.cat + '</span></div>' +
+      '<h3 class="flagship-title">' + p.title + '</h3>' +
+      '<p class="flagship-desc">' + p.long + '</p>' +
+      '<div class="flagship-kpis">' + meta.kpis.map(k => '<div class="flagship-kpi"><div class="flagship-kpi-v">' + k.v + '</div><div class="flagship-kpi-k">' + k.k + '</div></div>').join('') + '</div>' +
+      '<div class="flagship-foot">' +
+        '<span class="flagship-tags">' + p.tags.map(t => '<span class="tag">' + t + '</span>').join('') + '</span>' +
+        '<a href="' + p.pdf + '" class="btn btn-primary">View report →</a>' +
+      '</div>';
+
+    article.appendChild(media);
+    article.appendChild(body);
+    flagshipsEl.appendChild(article);
+
+    io.observe(article);
+  });
+
+  /* ---------------------------------------------------------
+     Projects — filterable grid
+  --------------------------------------------------------- */
+  const rest = projects.filter(p => !flagIds.includes(p.id)).map((p, i) => ({ ...p, n: fmt(i + 3) }));
+  const categories = ['All', 'Blue Carbon', 'Remote Sensing', 'Species Distribution', 'Fisheries & MPAs'].filter(c => c === 'All' || rest.some(p => p.cat === c));
+  let activeFilter = 'All';
+
+  const filtersEl = document.getElementById('filters');
+  const gridEl = document.getElementById('project-grid');
+  document.getElementById('portfolio-tally').textContent = '03 flagship · ' + String(rest.length).padStart(2, '0') + ' more · PDF reports';
+
+  function renderFilters() {
+    filtersEl.innerHTML = '';
+    categories.forEach(c => {
+      const count = c === 'All' ? rest.length : rest.filter(p => p.cat === c).length;
+      const btn = el('button', 'filter-btn' + (activeFilter === c ? ' active' : ''));
+      btn.innerHTML = c + '<span>' + count + '</span>';
+      btn.addEventListener('click', () => { activeFilter = c; renderFilters(); renderGrid(); });
+      filtersEl.appendChild(btn);
+    });
+  }
+
+  function renderGrid() {
+    gridEl.innerHTML = '';
+    const list = activeFilter === 'All' ? rest : rest.filter(p => p.cat === activeFilter);
+    list.forEach((p, i) => {
+      const card = el('a', 'project-card');
+      card.href = p.pdf;
+      card.setAttribute('data-reveal', '');
+      card.setAttribute('data-reveal-delay', String((i % 4) * 70));
+      card.innerHTML =
+        '<div class="project-card-head"><span>' + p.n + '</span><span>' + p.cat + '</span></div>' +
+        '<span class="project-card-title">' + p.title + '</span>' +
+        '<span class="project-card-desc">' + p.desc + '</span>' +
+        '<span class="project-card-foot">' +
+          '<span class="project-card-tags">' + p.tags.map(t => '<span class="tag-sm">' + t + '</span>').join('') + '</span>' +
+          '<span class="project-card-pdf">PDF ↗</span>' +
+        '</span>';
+      gridEl.appendChild(card);
+      const delay = card.getAttribute('data-reveal-delay');
+      card.style.transitionDelay = delay + 'ms';
+      io.observe(card);
+    });
+  }
+
+  renderFilters();
+  renderGrid();
+
+  /* ---------------------------------------------------------
+     CV — stats tiles
+  --------------------------------------------------------- */
+  const statsRowEl = document.getElementById('stats-row');
+  const stats = [
+    { value: '10+', label: 'Portfolio projects across marine, climate and biodiversity science', k: 'Projects', n: '01', delay: '0' },
+    { value: '3', label: 'Core tools — R · QGIS · Google Earth Engine', k: 'Core tools', n: '02', delay: '100' },
+    { value: 'MSc', label: 'Marine Biology & Aquaculture', k: 'Degree', n: '03', delay: '200' }
+  ];
+  stats.forEach(s => {
+    const tile = el('div', 'stat-tile');
+    tile.setAttribute('data-reveal', '');
+    tile.setAttribute('data-reveal-delay', s.delay);
+    tile.style.transitionDelay = s.delay + 'ms';
+    tile.innerHTML =
+      '<div class="stat-tile-head"><span>' + s.k + '</span><span>' + s.n + '</span></div>' +
+      '<div><div class="stat-tile-value">' + s.value + '</div><div class="stat-tile-label">' + s.label + '</div></div>';
+    statsRowEl.appendChild(tile);
+    io.observe(tile);
+  });
+
+  /* ---------------------------------------------------------
+     CV — toolkit bars
+  --------------------------------------------------------- */
+  const toolbarsEl = document.getElementById('toolbars');
+  const toolBars = toolDefs.map(([name, use, key]) => {
+    const count = projects.filter(p => p.tags.some(t => t.startsWith(key))).length;
+    return { name, use, count, width: (count / projects.length * 100).toFixed(1) + '%' };
+  });
+  toolBars.forEach(t => {
+    const row = el('div', 'toolbar-row');
+    row.innerHTML =
+      '<span><span class="toolbar-name">' + t.name + '</span><span class="toolbar-use">' + t.use + '</span></span>' +
+      '<span class="toolbar-track"><span class="toolbar-fill" data-width="' + t.width + '"></span></span>' +
+      '<span class="toolbar-count">' + t.count + '</span>';
+    toolbarsEl.appendChild(row);
+  });
+  const toolbarObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      toolbarsEl.querySelectorAll('.toolbar-fill').forEach(f => { f.style.width = f.getAttribute('data-width'); });
+      toolbarObserver.disconnect();
+    });
+  }, { threshold: 0.3 });
+  toolbarObserver.observe(toolbarsEl);
+
+  /* ---------------------------------------------------------
+     Contact
+  --------------------------------------------------------- */
+  const contactLinksEl = document.getElementById('contact-links');
+  contactLinks.forEach(l => {
+    const a = el('a', 'contact-link');
+    a.href = l.href;
+    a.innerHTML = '<span class="contact-link-label">' + l.label + '</span><span class="contact-link-value">' + l.value + '</span><span>↗</span>';
+    contactLinksEl.appendChild(a);
+  });
+
+  const servicesEl = document.getElementById('services-list');
+  services.forEach(s => {
+    const row = el('div', 'service-item');
+    row.innerHTML = '<span class="service-check">✓</span>' + s;
+    servicesEl.appendChild(row);
+  });
+})();
+
+</script>
+</body>
+</html>
